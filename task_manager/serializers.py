@@ -1,10 +1,15 @@
 from task_manager import models
 from rest_framework import serializers
 from datetime import datetime
+from oracle_base.serializers import ClientListSerializer
 
 
 class TaskUserWorkSerializer(serializers.ModelSerializer):
     """список исполнителей заявки"""
+    create_user = serializers.StringRelatedField()
+    # user = serializers.StringRelatedField()
+    # task = serializers.StringRelatedField()
+
     class Meta:
         model = models.Task_user_work
         fields = "__all__"
@@ -13,6 +18,8 @@ class TaskUserWorkSerializer(serializers.ModelSerializer):
 
 class TaskMessagesSerializer(serializers.ModelSerializer):
     """Комментарии от сотрудников к заявке"""
+    create_user = serializers.StringRelatedField()
+
     class Meta:
         model = models.Task_messages
         fields = "__all__"
@@ -21,6 +28,8 @@ class TaskMessagesSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     """список всех заявок"""
+    create_user = serializers.StringRelatedField()
+
     class Meta:
         model = models.Task
         fields = "__all__"
@@ -50,6 +59,8 @@ class TaskSourceSerializer(serializers.ModelSerializer):
 
 class TaskStatusSerializer(serializers.ModelSerializer):
     """список статусов конкретной заявки"""
+    create_user = serializers.StringRelatedField()
+
     class Meta:
         model = models.Task_status
         fields = "__all__"
@@ -62,11 +73,13 @@ class TaskFullInfoSerializer(serializers.ModelSerializer):
                                         slug_field='task_name')
     source = serializers.StringRelatedField(read_only=True, many=False)
     create_user = serializers.StringRelatedField(many=False)
-    client = serializers.StringRelatedField(many=False)
+    # client = serializers.StringRelatedField(many=False)
+    client = ClientListSerializer(many=False)
     current_status = serializers.SerializerMethodField()
     current_user = serializers.SerializerMethodField()
     close_date = serializers.SerializerMethodField()
     close_comment = serializers.SerializerMethodField()
+    task_messages = TaskMessagesSerializer(many=True)
 
     class Meta:
         model = models.Task

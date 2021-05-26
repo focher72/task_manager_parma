@@ -180,11 +180,11 @@ class Task_user_work(ChangeloggableMixin, models.Model):
 class Task_messages(ChangeloggableMixin, models.Model):
     """ Комментарии сотрудников к заявке """
     task = models.ForeignKey(
-        'Task',
+        Task,
         null=True,
         on_delete=models.SET_NULL,
         verbose_name='Заявка',
-        related_name='Task_messages')
+        related_name='task_messages')
     messages_text = models.TextField('Сообщение')
     file = models.FileField(upload_to='documents/%Y/%m/%d/', null=True, blank=True)
     create_date = models.DateTimeField(

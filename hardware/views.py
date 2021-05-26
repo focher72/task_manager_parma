@@ -2,7 +2,7 @@ from hardware import models, serializers
 from rest_framework import permissions, viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django.http import JsonResponse
-from .services import _change_hardware_adress, _change_hardware_ports
+from .services import _change_hardware_adress, _change_hardware_ports, DynamicSearchFilter
 
 
 def change_hardware(request):
@@ -23,10 +23,80 @@ class ActiveHardwareViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ActiveHardwareSerializer
     filter_backends = (
         DjangoFilterBackend,
+        DynamicSearchFilter,
         filters.SearchFilter,
         filters.OrderingFilter
     )
     filterset_fields = ['create_user']
-    search_fields = ['name_hardware', 'serial_num', 'invt_num']
+    ordering_fields = ['create_date']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class AdressViewSet(viewsets.ModelViewSet):
+    """Все заявки"""
+    queryset = models.Hardware_adress.objects.all()
+    serializer_class = serializers.HardwareAdressSerializer
+    filter_backends = (
+        DjangoFilterBackend,
+        DynamicSearchFilter
+    )
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class ChangeReasonViewSet(viewsets.ModelViewSet):
+    """Все заявки"""
+    queryset = models.Change_reason.objects.all()
+    serializer_class = serializers.ChangeReasonSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class HardwareAdressViewSet(viewsets.ModelViewSet):
+    """Все заявки"""
+    queryset = models.Hardware_adress_history.objects.all()
+    serializer_class = serializers.HardwareAdressHistorySerializer
+    filter_backends = (
+        DjangoFilterBackend,
+        DynamicSearchFilter,
+        filters.SearchFilter,
+        filters.OrderingFilter
+    )
+    filterset_fields = ['create_user']
+    ordering_fields = ['create_date']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class VlanViewSet(viewsets.ModelViewSet):
+    """Все заявки"""
+    queryset = models.Vlan.objects.all()
+    serializer_class = serializers.VlanSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class HardwarePortsViewSet(viewsets.ModelViewSet):
+    """Все заявки"""
+    queryset = models.Hardware_ports.objects.all()
+    serializer_class = serializers.HardwarePortsSerializer
+    filter_backends = (
+        DjangoFilterBackend,
+        DynamicSearchFilter,
+        filters.SearchFilter,
+        filters.OrderingFilter
+    )
+    filterset_fields = ['create_user']
+    ordering_fields = ['create_date']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class HardwareConnectionsViewSet(viewsets.ModelViewSet):
+    """Все заявки"""
+    queryset = models.Hardware_connections.objects.all()
+    serializer_class = serializers.HardwareConnectionsSerializer
+    filter_backends = (
+        DjangoFilterBackend,
+        DynamicSearchFilter,
+        filters.SearchFilter,
+        filters.OrderingFilter
+    )
+    filterset_fields = ['create_user']
     ordering_fields = ['create_date']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

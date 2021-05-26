@@ -6,6 +6,12 @@ from . import views
 router = DefaultRouter()
 router.register(r'ActiveHardware', views.ActiveHardwareViewSet,
                 basename='ActiveHardware')
+router.register(r'Adress', views.AdressViewSet)
+router.register(r'ChangeReason', views.ChangeReasonViewSet)
+router.register(r'HardwareAdress', views.HardwareAdressViewSet)
+router.register(r'Vlan', views.VlanViewSet)
+router.register(r'HardwarePorts', views.HardwarePortsViewSet)
+router.register(r'HardwareConnections', views.HardwareConnectionsViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

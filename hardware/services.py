@@ -1,10 +1,15 @@
-from django.http import JsonResponse
 from .models import (
     Hardware_adress_history,
     Active_hardware,
     Hardware_ports,
     Change_reason
 )
+from rest_framework import filters
+
+
+class DynamicSearchFilter(filters.SearchFilter):
+    def get_search_fields(self, view, request):
+        return request.GET.getlist('search_fields', [])
 
 
 def _get_hardware_adress_info(hardware: int):
@@ -22,10 +27,12 @@ def _change_hardware_adress(hardware_A: int, hardware_B: int):
     new_adress_A = Hardware_adress_history.objects.create(
         adress=adress_info_B.adress,
         hardware=Active_hardware.objects.get(pk=hardware_A),
+        comment='[AUTO] Замена оборудования местаими',
         change_reason=Change_reason.objects.get(pk=1))
     new_adress_B = Hardware_adress_history.objects.create(
         adress=adress_info_A.adress,
         hardware=Active_hardware.objects.get(pk=hardware_B),
+        comment='[AUTO] Замена оборудования местаими',
         change_reason=Change_reason.objects.get(pk=1))
     return {
         'hardware_A': f'{adress_info_A.adress}' + ' -> ' + f'{new_adress_A.adress}',
