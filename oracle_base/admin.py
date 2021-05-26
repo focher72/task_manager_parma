@@ -18,7 +18,7 @@ class Client_shpd_info_Admin(admin.ModelAdmin):
     # Имена полей которые нужны как гиперссылки
     list_display_links = ('account',)
     # Поля по которым нужна фильтрация возможно в третей версии его нет
-    search_fields = ('account__clnt_name',)
+    search_fields = ('account__clnt_name', 'account__account',)
     list_filter = ('type_shpd', 'tarplan',)
 
 

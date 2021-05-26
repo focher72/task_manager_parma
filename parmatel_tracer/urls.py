@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from task_manager import urls as tm_url
+from task_manager.views import index
 from hardware import urls as hw_url
 from oracle_base.views import ClientListSet, ClientShpdInfoSet
 from new_client.views import NewClientViewSet
@@ -19,6 +20,7 @@ router.register(r'users', UserViewSet)
 router.register(r'groups', GroupViewSet)
 
 urlpatterns = [
+    path('', index, name='index'),
     path('admin/', admin.site.urls),
     path('router/', include(router.urls)),
     path('task_manager/', include(tm_url)),

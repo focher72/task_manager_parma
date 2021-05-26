@@ -1,6 +1,12 @@
 from task_manager import models, service, serializers
 from rest_framework import permissions, viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
+from django.http import HttpResponse
+
+
+def index(request):
+    text = 'parmatel'
+    return HttpResponse(text, content_type='text/plain; charset=utf-8')
 
 
 class TaskViewSet(viewsets.ModelViewSet):
