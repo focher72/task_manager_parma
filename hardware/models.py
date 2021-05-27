@@ -1,17 +1,14 @@
 from django.db import models
 from datetime import datetime
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django_currentuser.db.models import CurrentUserField
 from oracle_base.models import Client_shpd_info
-
-"""
-from django_currentuser.middleware import (
-    get_current_user, get_current_authenticated_user)
-"""
+from changelog.mixins import ChangeloggableMixin
+from changelog.signals import journal_save_handler, journal_delete_handler
 
 
-class Active_hardware(models.Model):
+class Active_hardware(ChangeloggableMixin, models.Model):
     name_hardware = models.CharField('Название', max_length=100)
     serial_num = models.CharField('Серийный номер', max_length=100)
     invt_num = models.CharField('Инвентарный номер', max_length=100)
@@ -42,6 +39,10 @@ class Active_hardware(models.Model):
 
     def __str__(self):
         return self.name_hardware + ' IP: ' + self.ip_adress
+
+
+post_save.connect(journal_save_handler, sender=Active_hardware)
+post_delete.connect(journal_delete_handler, sender=Active_hardware)
 
 
 class Hardware_adress(models.Model):

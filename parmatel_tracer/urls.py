@@ -9,6 +9,7 @@ from oracle_base.views import ClientListSet, ClientShpdInfoSet
 from new_client.views import NewClientViewSet
 from django.conf import settings
 from django.conf.urls.static import static
+from changelog.views import ChangeLogViewSet
 
 
 router = routers.DefaultRouter()
@@ -16,6 +17,7 @@ router = routers.DefaultRouter()
 router.register(r'ClientList', ClientListSet)
 router.register(r'ClientShpdInfo', ClientShpdInfoSet)
 router.register(r'NewClient', NewClientViewSet)
+router.register(r'changelog', ChangeLogViewSet)
 
 
 urlpatterns = [
