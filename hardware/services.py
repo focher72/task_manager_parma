@@ -41,12 +41,12 @@ def _change_hardware_adress(hardware_A: int, hardware_B: int):
 
 
 def _change_hardware_ports(hardware_A: int, hardware_B: int):
-    Hardware_ports.objects \
+    a = Hardware_ports.objects \
         .filter(hardware=Active_hardware.objects.get(pk=hardware_A)) \
         .update(hardware=Active_hardware.objects.get(name_hardware='!Для перемещения'))
-    Hardware_ports.objects \
+    b = Hardware_ports.objects \
         .filter(hardware=Active_hardware.objects.get(pk=hardware_B)) \
         .update(hardware=Active_hardware.objects.get(pk=hardware_A))
-    Hardware_ports.objects \
+    c = Hardware_ports.objects \
         .filter(hardware=Active_hardware.objects.get(name_hardware='!Для перемещения')) \
         .update(hardware=Active_hardware.objects.get(pk=hardware_A))
