@@ -2,7 +2,8 @@ from hardware import models, serializers
 from rest_framework import permissions, viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django.http import JsonResponse
-from .services import _change_hardware_adress, _change_hardware_ports, DynamicSearchFilter
+from .services import _change_hardware_adress, _change_hardware_ports, \
+                      DynamicSearchFilter
 
 
 def change_hardware(request):
