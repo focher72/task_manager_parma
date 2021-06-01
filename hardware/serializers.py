@@ -32,6 +32,25 @@ class HardwareAdressHistorySerializer(serializers.ModelSerializer):
         read_only_fields = ('create_user', 'create_date',)
 
 
+class HardwarePortsSerializer(serializers.ModelSerializer):
+    """Полный список статусов"""
+    class Meta:
+        model = models.Hardware_ports
+        fields = "__all__"
+        read_only_fields = ('create_user', 'create_date',)
+
+
+class HardwarePortsReadSerializer(serializers.ModelSerializer):
+    """Порты на оборудовании, только для чтения (для VlanReadSerializer)"""
+    hardware = serializers.StringRelatedField(many=False)
+    client_service = serializers.StringRelatedField(many=False)
+
+    class Meta:
+        model = models.Hardware_ports
+        fields = ("hardware", "port_number", "client_service",)
+        read_only_fields = ('create_user', 'create_date',)
+
+
 class VlanSerializer(serializers.ModelSerializer):
     """Vlanы"""
     class Meta:
@@ -39,12 +58,13 @@ class VlanSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class HardwarePortsSerializer(serializers.ModelSerializer):
-    """Полный список статусов"""
+class VlanReadSerializer(serializers.ModelSerializer):
+    """Vlanы только на чтение"""
+    vlan_ports = HardwarePortsReadSerializer(many=True)
+
     class Meta:
-        model = models.Hardware_ports
-        fields = "__all__"
-        read_only_fields = ('create_user', 'create_date',)
+        model = models.Vlan
+        fields = ("id", "vlan_name", "comment", "vlan_ports",)
 
 
 class HardwareConnectionsSerializer(serializers.ModelSerializer):

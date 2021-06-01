@@ -10,6 +10,7 @@ router.register(r'Adress', views.AdressViewSet)
 router.register(r'ChangeReason', views.ChangeReasonViewSet)
 router.register(r'HardwareAdress', views.HardwareAdressViewSet)
 router.register(r'Vlan', views.VlanViewSet)
+router.register(r'VlanRead', views.VlanReadViewSet, basename='VlanRead')
 router.register(r'HardwarePorts', views.HardwarePortsViewSet)
 router.register(r'HardwareConnections', views.HardwareConnectionsViewSet)
 

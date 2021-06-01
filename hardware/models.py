@@ -124,7 +124,7 @@ class Hardware_ports(models.Model):
         null=True,
         on_delete=models.SET_NULL,
         verbose_name='Услуга клиента')
-    port_vlan = models.ManyToManyField(Vlan, blank=True)
+    port_vlan = models.ManyToManyField(Vlan, blank=True, related_name="vlan_ports")
     comment = models.CharField('Комментарий', null=True, blank=True,
                                max_length=250)
     create_date = models.DateTimeField(

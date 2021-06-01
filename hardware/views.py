@@ -73,6 +73,13 @@ class VlanViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
+class VlanReadViewSet(viewsets.ReadOnlyModelViewSet):
+    """Все заявки"""
+    queryset = models.Vlan.objects.all()
+    serializer_class = serializers.VlanReadSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
 class HardwarePortsViewSet(viewsets.ModelViewSet):
     """Все заявки"""
     queryset = models.Hardware_ports.objects.all()
