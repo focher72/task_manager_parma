@@ -25,6 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '&ef(9ax72%kii3isvyyq+_fd6m!=c0a(rkp0g0st@mk4sl#cfg'
 
+PARMATEL_BILLING = "http://192.168.1.40/api"
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
