@@ -9,14 +9,14 @@ import json
 
 def create_client(request):
     func_success = True
-    account = request.GET.get('account').split()
+    account = request.GET.get('account')
     if account is None:
         return JsonResponse({'success': False,
                              'func_result': 'give my account blyat'})
     else:
         create_accout_info = []
 
-        for account_elnt in account:
+        for account_elnt in account.split():
             param = {"mnemo": "GetUser", "secret": "228", "args": {"lic_number": account_elnt}}
             try:
                 json_param = json.dumps(param)
