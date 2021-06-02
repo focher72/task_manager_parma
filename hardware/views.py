@@ -4,8 +4,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.http import JsonResponse
 from .services import _change_hardware_adress, _change_hardware_ports, \
                       DynamicSearchFilter
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser
 
 
+@api_view()
+@permission_classes([IsAdminUser])
 def change_hardware(request):
     hardware_A = request.GET.get('hardware_A')
     hardware_B = request.GET.get('hardware_B')

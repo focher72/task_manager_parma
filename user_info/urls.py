@@ -10,4 +10,5 @@ router.register(r'Permission', views.PermissionViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('current_user/', views.current_user),
 ]

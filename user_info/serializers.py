@@ -11,7 +11,7 @@ class PermissionSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email',
+        fields = ['id', 'username', 'first_name', 'email',
                   'is_active', 'groups', 'password']
 
     def create(self, validated_data):
@@ -27,9 +27,17 @@ class UserSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
+class CurrentUserSerializer(serializers.ModelSerializer):
+    groups = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        model = User
+        fields = ['groups']
+
+
 class GroupSerializer(serializers.ModelSerializer):
-    permissions = serializers.StringRelatedField(read_only=True, many=True)
+    # permissions = serializers.StringRelatedField(read_only=True, many=True)
 
     class Meta:
         model = Group
-        fields = ['id', 'name', 'permissions']
+        fields = ['id', 'name']

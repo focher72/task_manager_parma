@@ -5,8 +5,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.http import JsonResponse
 import requests
 import json
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser
 
 
+@api_view()
+@permission_classes([IsAdminUser])
 def create_client(request):
     func_success = True
     account = request.GET.get('account')
