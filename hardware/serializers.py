@@ -18,10 +18,11 @@ class HardwareAdressSerializer(serializers.ModelSerializer):
 
 
 class ChangeReasonSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='reason_name')
     """причина изменеия"""
     class Meta:
         model = models.Change_reason
-        fields = "__all__"
+        fields = ('id', 'name',)
 
 
 class HardwareAdressHistorySerializer(serializers.ModelSerializer):
@@ -60,11 +61,15 @@ class VlanSerializer(serializers.ModelSerializer):
 
 class VlanReadSerializer(serializers.ModelSerializer):
     """Vlanы только на чтение"""
+    count_user = serializers.SerializerMethodField('get_count_user')
     vlan_ports = HardwarePortsReadSerializer(many=True)
+
+    def get_count_user(self, obj):
+        return obj.vlan_ports.count()
 
     class Meta:
         model = models.Vlan
-        fields = ("id", "vlan_name", "comment", "vlan_ports",)
+        fields = ("id", "vlan_name", "comment", "count_user", "vlan_ports",)
 
 
 class HardwareConnectionsSerializer(serializers.ModelSerializer):
