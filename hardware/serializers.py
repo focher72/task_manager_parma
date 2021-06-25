@@ -7,7 +7,40 @@ class ActiveHardwareSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Active_hardware
         fields = "__all__"
-        read_only_fields = ('create_user', 'create_date',)
+
+
+class ActiveHardwarePortsSerializer(serializers.ModelSerializer):
+    """список активного оборудования и порты на нем"""
+    adress = serializers.StringRelatedField()
+    count_ports = serializers.SerializerMethodField('get_count_ports')
+
+    def get_count_ports(self, obj):
+        return obj.hardware_ports.count()
+
+    class Meta:
+        model = models.Active_hardware
+        fields = "__all__"
+
+
+class ActiveHardwareHistorySerializer(serializers.ModelSerializer):
+    """история активного оборудования"""
+    history_user = serializers.StringRelatedField()
+    adress = serializers.StringRelatedField()
+
+    class Meta:
+        model = models.Active_hardware_history
+        fields = (
+            'id',
+            'history_user',
+            'history_date',
+            'name_hardware',
+            'serial_num',
+            'adress',
+            'ip_adress',
+            'mac_adress',
+            'revision',
+            'history_change_reason',
+        )
 
 
 class HardwareAdressSerializer(serializers.ModelSerializer):
@@ -17,27 +50,24 @@ class HardwareAdressSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ChangeReasonSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source='reason_name')
-    """причина изменеия"""
-    class Meta:
-        model = models.Change_reason
-        fields = ('id', 'name',)
+class PortsSerializer(serializers.ModelSerializer):
+    """Полный список статусов"""
 
-
-class HardwareAdressHistorySerializer(serializers.ModelSerializer):
-    """История изменения адреса оборудования"""
     class Meta:
-        model = models.Hardware_adress_history
-        fields = "__all__"
+        model = models.Hardware_ports
+        # fields = "__all__"
+        exclude = ('create_user', 'create_date',)
         read_only_fields = ('create_user', 'create_date',)
 
 
-class HardwarePortsSerializer(serializers.ModelSerializer):
+class PortsVlanSerializer(serializers.ModelSerializer):
     """Полный список статусов"""
+    port_vlan = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = models.Hardware_ports
-        fields = "__all__"
+        # fields = "__all__"
+        exclude = ('create_user', 'create_date', 'hardware',)
         read_only_fields = ('create_user', 'create_date',)
 
 
@@ -59,17 +89,16 @@ class VlanSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class VlanReadSerializer(serializers.ModelSerializer):
+class VlanPortsSerializer(serializers.ModelSerializer):
     """Vlanы только на чтение"""
-    count_user = serializers.SerializerMethodField('get_count_user')
-    vlan_ports = HardwarePortsReadSerializer(many=True)
+    count_ports = serializers.SerializerMethodField('get_count_ports')
 
-    def get_count_user(self, obj):
+    def get_count_ports(self, obj):
         return obj.vlan_ports.count()
 
     class Meta:
         model = models.Vlan
-        fields = ("id", "vlan_name", "comment", "count_user", "vlan_ports",)
+        fields = ("id", "vlan_name", "comment", "count_ports",)
 
 
 class HardwareConnectionsSerializer(serializers.ModelSerializer):

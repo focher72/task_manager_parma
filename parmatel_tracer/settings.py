@@ -44,6 +44,8 @@ SESSION_COOKIE_HTTPONLY = True
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+SIMPLE_HISTORY_HISTORY_CHANGE_REASON_USE_TEXT_FIELD = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -65,6 +67,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'djoser',
+    'simple_history',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +81,7 @@ MIDDLEWARE = [
 
     'changelog.middleware.LoggedInUserMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'parmatel_tracer.urls'
