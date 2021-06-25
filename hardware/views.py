@@ -10,7 +10,7 @@ from . import filters as drf_filters
 from simple_history.utils import update_change_reason
 
 
-
+"""
 @api_view()
 @permission_classes([IsAdminUser])
 def change_hardware(request):
@@ -23,7 +23,7 @@ def change_hardware(request):
     except models.Hardware_adress_history.DoesNotExist:
         return JsonResponse({'change': False,
                              'problem': 'hardware not found'})
-
+"""
 
 
 class ActiveHardwareViewSet(viewsets.ModelViewSet):
@@ -91,7 +91,7 @@ class AdressViewSet(viewsets.ModelViewSet):
         dj_filters.DjangoFilterBackend,
         filters.OrderingFilter,
     )
-    filterset_class = drf_filters.ActiveHardwareFilter
+    filterset_class = drf_filters.HardwareAdressFilter
     ordering_fields = ['adress', 'comment']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 

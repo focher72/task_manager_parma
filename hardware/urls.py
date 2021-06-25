@@ -11,7 +11,6 @@ router.register(r'ActiveHardwareHistory', views.ActiveHardwareHistoryViewSet,
 router.register(r'ActiveHardwarePorts', views.ActiveHardwarePortsViewSet,
                 basename='ActiveHardwarePorts')
 router.register(r'Adress', views.AdressViewSet)
-# router.register(r'HardwareAdress', views.HardwareAdressViewSet)
 router.register(r'Vlan', views.VlanViewSet)
 router.register(r'VlanPorts', views.VlanPortsViewSet, basename='VlanPorts')
 router.register(r'HardwarePorts', views.HardwarePortsViewSet)
