@@ -4,8 +4,8 @@ from .models import New_client, Client_adress
 from rest_framework import permissions, viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 
-# from django_filters import rest_framework as dj_filters
-# from .filters import NewClientFilter
+from django_filters import rest_framework as dj_filters
+from .filters import NewClientFilter
 
 
 class NewClientViewSet(viewsets.ModelViewSet):
@@ -28,13 +28,13 @@ class NewClientReadViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = New_client.objects.all().order_by('-create_date')
     serializer_class = NewClientReadSerializer
     filter_backends = (
-        DjangoFilterBackend,
-        # dj_filters.DjangoFilterBackend,
+        # DjangoFilterBackend,
+        dj_filters.DjangoFilterBackend,
         filters.SearchFilter,
         filters.OrderingFilter
     )
-    filterset_fields = ['create_user', 'adress']
-    # filterset_class = NewClientFilter
+    # filterset_fields = ['create_user', 'adress']
+    filterset_class = NewClientFilter
     search_fields = ['fio', 'contact', 'adress__street', 'adress__house']
     ordering_fields = ['create_date']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
