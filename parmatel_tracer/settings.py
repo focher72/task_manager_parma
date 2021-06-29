@@ -169,6 +169,10 @@ USE_L10N = True
 
 USE_TZ = False
 
+DATETIME_FORMAT = ['%d.%m.%Y %H:%M:%S']
+DATETIME_INPUT_FORMATS = ['%d.%m.%Y %H:%M:%S']
+DATE_FORMAT = ['%d-%m-%Y']
+DATE_INPUT_FORMATS = ['%d.%m.%Y']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -203,7 +207,10 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
-    'DATETIME_FORMAT': '%d.%m.%Y %H:%M:%S'
+    'DATETIME_FORMAT': '%d.%m.%Y %H:%M:%S',
+    'DATETIME_INPUT_FORMATS': '%d.%m.%Y %H:%M:%S',
+    'DATE_FORMAT': '%d.%m.%Y',
+    'DATE_INPUT_FORMATS': '%d.%m.%Y',
 }
 
 DJOSER = {

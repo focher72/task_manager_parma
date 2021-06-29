@@ -64,8 +64,10 @@ class ActiveHardwareHistoryViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (
         dj_filters.DjangoFilterBackend,
         filters.OrderingFilter,
+        filters.SearchFilter,
     )
     filterset_class = drf_filters.ActiveHardwareHistoryFilter
+    search_fields = ['name_hardware']
     ordering_fields = ['name_hardware', 'serial_num', 'ip_adress']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -78,7 +80,7 @@ class ActiveHardwarePortsViewSet(viewsets.ReadOnlyModelViewSet):
         dj_filters.DjangoFilterBackend,
         filters.OrderingFilter,
     )
-    #filterset_class = drf_filters.ActiveHardwareHistoryFilter
+    filterset_class = drf_filters.ActiveHardwareHistoryFilter
     ordering_fields = ['name_hardware', 'serial_num', 'ip_adress']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 

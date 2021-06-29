@@ -8,9 +8,10 @@ from .models import (
 )
 from simple_history.admin import SimpleHistoryAdmin
 
+
 class Active_hardware_Admin(admin.ModelAdmin):
-    list_display = ('name_hardware', 'serial_num', 'ip_adress')
-    search_fields = ('name_hardware', 'serial_num', 'invt_num',)
+    list_display = ('name_hardware', 'serial_num', 'ip_adress', 'adress', 'revision',)
+    search_fields = ('name_hardware', 'serial_num', 'ip_adress')
 
 
 class Hardware_ports_Admin(admin.ModelAdmin):
@@ -22,8 +23,13 @@ class Hardware_ports_Admin(admin.ModelAdmin):
 
 
 class Vlan_Admin(admin.ModelAdmin):
-    list_display = ('vlan_name', 'comment',)
+    list_display = ('vlan_number', 'vlan_name', 'comment',)
     search_fields = ('vlan_name',)
+
+
+class Adress_Admin(admin.ModelAdmin):
+    list_display = ('adress', 'comment',)
+    search_fields = ('adress', 'comment',)
 
 
 class Hardware_connections_Admin(admin.ModelAdmin):
@@ -31,8 +37,8 @@ class Hardware_connections_Admin(admin.ModelAdmin):
     list_display_links = ('hardware_A', 'hardware_B',)
 
 
-admin.site.register(Active_hardware, SimpleHistoryAdmin)
-admin.site.register(Hardware_adress)
+admin.site.register(Active_hardware, Active_hardware_Admin)
+admin.site.register(Hardware_adress, Adress_Admin)
 admin.site.register(Hardware_ports, Hardware_ports_Admin)
 admin.site.register(Vlan, Vlan_Admin)
 admin.site.register(Hardware_connections, Hardware_connections_Admin)

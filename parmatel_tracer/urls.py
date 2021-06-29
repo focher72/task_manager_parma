@@ -5,6 +5,7 @@ from task_manager import urls as tm_url
 from task_manager.views import index
 from hardware import urls as hw_url
 from user_info import urls as ui_url
+from new_client import urls as nc_url
 from oracle_base.views import ClientListSet, ClientShpdInfoSet, create_client
 from new_client.views import NewClientViewSet
 from django.conf import settings
@@ -16,7 +17,6 @@ router = routers.DefaultRouter()
 
 router.register(r'ClientList', ClientListSet)
 router.register(r'ClientShpdInfo', ClientShpdInfoSet)
-router.register(r'NewClient', NewClientViewSet)
 router.register(r'changelog', ChangeLogViewSet)
 
 
@@ -27,6 +27,7 @@ urlpatterns = [
     path('task_manager/', include(tm_url)),
     path('hardware/', include(hw_url)),
     path('user_info/', include(ui_url)),
+    path('new_client/', include(nc_url)),
     path('create_client/', create_client),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('auth/', include('djoser.urls')),
