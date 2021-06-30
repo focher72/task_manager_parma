@@ -58,6 +58,9 @@ class Active_hardware_history(models.Model):
         managed = False
         db_table = 'hardware_historicalactive_hardware'
 
+    def __str__(self):
+        return self.name_hardware
+
 
 class Hardware_adress(models.Model):
     """ Адреса оборудования или узлы """
@@ -115,7 +118,11 @@ class Hardware_ports(models.Model):
         verbose_name_plural = 'Занятые порты'
         verbose_name = 'Занятые порты'
 
+    def __str__(self):
+        return f'{self.hardware__name_hardware}' + '№ ' + f'{self.port_number}'
 
+
+"""
 class Hardware_connections(models.Model):
     hardware_A = models.ForeignKey(
         'Active_hardware',
@@ -141,3 +148,4 @@ class Hardware_connections(models.Model):
     class Meta:
         verbose_name_plural = 'Соединения коммутаторов'
         verbose_name = 'Соединения коммутаторов'
+"""

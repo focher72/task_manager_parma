@@ -17,15 +17,6 @@ class ClientAdressSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class AdressAndCleintSerializer(serializers.ModelSerializer):
-    """Адреса желающих на подключение"""
-    client_adress = NewClientSerializer(many=True)
-
-    class Meta:
-        model = Client_adress
-        fields = "__all__"
-
-
 class NewClientReadSerializer(serializers.ModelSerializer):
     """Форма для добавления/просмотра желающих на подключение"""
     adress = serializers.StringRelatedField()
@@ -35,3 +26,12 @@ class NewClientReadSerializer(serializers.ModelSerializer):
         model = New_client
         fields = "__all__"
         read_only_fields = ('create_date', 'create_user',)
+
+
+class AdressAndCleintSerializer(serializers.ModelSerializer):
+    """Адреса желающих на подключение"""
+    client_adress = NewClientReadSerializer(many=True)
+
+    class Meta:
+        model = Client_adress
+        fields = "__all__"

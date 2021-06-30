@@ -15,7 +15,7 @@ router.register(r'Vlan', views.VlanViewSet)
 router.register(r'VlanPorts', views.VlanPortsViewSet, basename='VlanPorts')
 router.register(r'HardwarePorts', views.HardwarePortsViewSet)
 router.register(r'HardwarePortsVlan', views.HardwarePortsVlanViewSet, basename="PortsVlan")
-router.register(r'HardwareConnections', views.HardwareConnectionsViewSet)
+# router.register(r'HardwareConnections', views.HardwareConnectionsViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -27,14 +27,16 @@ def change_hardware(request):
 
 
 class ActiveHardwareViewSet(viewsets.ModelViewSet):
-    """Все заявки"""
+    """Активное оборудование для добавления/удаления/изменения"""
     queryset = models.Active_hardware.objects.all()
     serializer_class = serializers.ActiveHardwareSerializer
     filter_backends = (
         dj_filters.DjangoFilterBackend,
         filters.OrderingFilter,
+        filters.SearchFilter,
     )
     filterset_class = drf_filters.ActiveHardwareFilter
+    search_fields = ['name_hardware', 'serial_num', 'ip_adress']
     ordering_fields = ['name_hardware', 'serial_num', 'ip_adress']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -58,7 +60,7 @@ class ActiveHardwareViewSet(viewsets.ModelViewSet):
 
 
 class ActiveHardwareHistoryViewSet(viewsets.ReadOnlyModelViewSet):
-    """Все заявки"""
+    """История активного оборудования"""
     queryset = models.Active_hardware_history.objects.all()
     serializer_class = serializers.ActiveHardwareHistorySerializer
     filter_backends = (
@@ -67,7 +69,7 @@ class ActiveHardwareHistoryViewSet(viewsets.ReadOnlyModelViewSet):
         filters.SearchFilter,
     )
     filterset_class = drf_filters.ActiveHardwareHistoryFilter
-    search_fields = ['name_hardware']
+    search_fields = ['name_hardware', 'serial_num', 'ip_adress']
     ordering_fields = ['name_hardware', 'serial_num', 'ip_adress']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -79,8 +81,10 @@ class ActiveHardwarePortsViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (
         dj_filters.DjangoFilterBackend,
         filters.OrderingFilter,
+        filters.SearchFilter,
     )
-    filterset_class = drf_filters.ActiveHardwareHistoryFilter
+    filterset_class = drf_filters.ActiveHardwareFilter
+    search_fields = ['name_hardware', 'serial_num', 'ip_adress']
     ordering_fields = ['name_hardware', 'serial_num', 'ip_adress']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -92,8 +96,10 @@ class AdressViewSet(viewsets.ModelViewSet):
     filter_backends = (
         dj_filters.DjangoFilterBackend,
         filters.OrderingFilter,
+        filters.SearchFilter,
     )
     filterset_class = drf_filters.HardwareAdressFilter
+    search_fields = ['adress']
     ordering_fields = ['adress', 'comment']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -105,8 +111,10 @@ class VlanViewSet(viewsets.ModelViewSet):
     filter_backends = (
         dj_filters.DjangoFilterBackend,
         filters.OrderingFilter,
+        filters.SearchFilter,
     )
     filterset_class = drf_filters.VlanFilter
+    search_fields = ['vlan_number', 'vlan_name']
     ordering_fields = ['vlan_number', 'vlan_name']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -118,9 +126,27 @@ class VlanPortsViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (
         dj_filters.DjangoFilterBackend,
         filters.OrderingFilter,
+        filters.SearchFilter,
     )
     filterset_class = drf_filters.VlanFilter
+    search_fields = ['vlan_number', 'vlan_name']
     ordering_fields = ['vlan_number', 'vlan_name']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class HardwarePortsVlanViewSet(viewsets.ReadOnlyModelViewSet):
+    """Все заявки"""
+    queryset = models.Hardware_ports.objects.all()
+    serializer_class = serializers.PortsVlanSerializer
+    filter_backends = (
+        dj_filters.DjangoFilterBackend,
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    )
+    filterset_class = drf_filters.PortsFilter
+    search_fields = ['hardware__name_hardware', 'hardware']
+    search_fields = ['vlan_number', 'vlan_name']
+    ordering_fields = ['hardware']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
@@ -133,25 +159,13 @@ class HardwarePortsViewSet(viewsets.ModelViewSet):
         filters.OrderingFilter
     )
     filterset_class = drf_filters.PortsFilter
+    search_fields = ['hardware__name_hardware', 'hardware']
     ordering_fields = ['hardware']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
-class HardwarePortsVlanViewSet(viewsets.ReadOnlyModelViewSet):
-    """Все заявки"""
-    queryset = models.Hardware_ports.objects.all()
-    serializer_class = serializers.PortsVlanSerializer
-    filter_backends = (
-        dj_filters.DjangoFilterBackend,
-        filters.OrderingFilter
-    )
-    filterset_class = drf_filters.PortsFilter
-    ordering_fields = ['hardware']
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-
+"""
 class HardwareConnectionsViewSet(viewsets.ModelViewSet):
-    """Все заявки"""
     queryset = models.Hardware_connections.objects.all()
     serializer_class = serializers.HardwareConnectionsSerializer
     filter_backends = (
@@ -162,3 +176,4 @@ class HardwareConnectionsViewSet(viewsets.ModelViewSet):
     filterset_fields = ['create_user']
     ordering_fields = ['create_date']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+"""

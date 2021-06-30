@@ -9,19 +9,6 @@ class ActiveHardwareSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ActiveHardwarePortsSerializer(serializers.ModelSerializer):
-    """список активного оборудования и порты на нем"""
-    adress = serializers.StringRelatedField()
-    count_ports = serializers.SerializerMethodField('get_count_ports')
-
-    def get_count_ports(self, obj):
-        return obj.hardware_ports.count()
-
-    class Meta:
-        model = models.Active_hardware
-        fields = "__all__"
-
-
 class ActiveHardwareHistorySerializer(serializers.ModelSerializer):
     """история активного оборудования"""
     history_user = serializers.StringRelatedField()
@@ -41,6 +28,19 @@ class ActiveHardwareHistorySerializer(serializers.ModelSerializer):
             'revision',
             'history_change_reason',
         )
+
+
+class ActiveHardwarePortsSerializer(serializers.ModelSerializer):
+    """список активного оборудования и порты на нем"""
+    adress = serializers.StringRelatedField()
+    count_ports = serializers.SerializerMethodField('get_count_ports')
+
+    def get_count_ports(self, obj):
+        return obj.hardware_ports.count()
+
+    class Meta:
+        model = models.Active_hardware
+        fields = "__all__"
 
 
 class HardwareAdressSerializer(serializers.ModelSerializer):
@@ -101,9 +101,11 @@ class VlanPortsSerializer(serializers.ModelSerializer):
         fields = ("id", "vlan_name", "comment", "count_ports",)
 
 
+"""
 class HardwareConnectionsSerializer(serializers.ModelSerializer):
-    """список статусов конкретной заявки"""
+    # список статусов конкретной заявки
     class Meta:
         model = models.Hardware_connections
         fields = "__all__"
         read_only_fields = ('create_user', 'create_date',)
+"""

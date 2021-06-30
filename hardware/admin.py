@@ -4,7 +4,7 @@ from .models import (
     Hardware_adress,
     Hardware_ports,
     Vlan,
-    Hardware_connections,
+    # Hardware_connections,
 )
 from simple_history.admin import SimpleHistoryAdmin
 
@@ -32,13 +32,14 @@ class Adress_Admin(admin.ModelAdmin):
     search_fields = ('adress', 'comment',)
 
 
+"""
 class Hardware_connections_Admin(admin.ModelAdmin):
     list_display = ('hardware_A', 'port_number_A', 'hardware_B', 'port_number_B',)
     list_display_links = ('hardware_A', 'hardware_B',)
-
+"""
 
 admin.site.register(Active_hardware, Active_hardware_Admin)
 admin.site.register(Hardware_adress, Adress_Admin)
 admin.site.register(Hardware_ports, Hardware_ports_Admin)
 admin.site.register(Vlan, Vlan_Admin)
-admin.site.register(Hardware_connections, Hardware_connections_Admin)
+# admin.site.register(Hardware_connections, Hardware_connections_Admin)
