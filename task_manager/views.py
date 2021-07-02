@@ -24,9 +24,16 @@ class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
-class TaskFullViewSet(viewsets.ReadOnlyModelViewSet):
+class TechTaskFullViewSet(viewsets.ReadOnlyModelViewSet):
     """Полная информация о всех заявках"""
-    queryset = models.Task.objects.all()
+    queryset = models.Task.objects.filter(category='tech')
+    serializer_class = serializers.TaskFullInfoSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class AbonTaskFullViewSet(viewsets.ReadOnlyModelViewSet):
+    """Полная информация о всех заявках"""
+    queryset = models.Task.objects.filter(category='abon')
     serializer_class = serializers.TaskFullInfoSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -42,7 +49,6 @@ class TaskStatusViewSet(viewsets.ModelViewSet):
     )
     filterset_fields = ['status', 'task']
     search_fields = ['task']
-    ordering_fields = ['create_date']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
@@ -57,7 +63,6 @@ class TaskUserViewSet(viewsets.ModelViewSet):
     )
     filterset_fields = ['user', 'task']
     search_fields = ['task']
-    ordering_fields = ['create_date']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
@@ -80,8 +85,6 @@ class StatusViewSet(viewsets.ModelViewSet):
     """Все доступные статусы"""
     queryset = models.Status.objects.all()
     serializer_class = serializers.StatusSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filterset_class = service.StatusFilter
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
@@ -96,4 +99,18 @@ class TaskTypesViewSet(viewsets.ModelViewSet):
     """Типы заявок"""
     queryset = models.Task_types.objects.all()
     serializer_class = serializers.TaskTypesSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class TechTaskTypesViewSet(viewsets.ReadOnlyModelViewSet):
+    """Типы заявок"""
+    queryset = models.Task_types.objects.filter(category='tech')
+    serializer_class = serializers.TaskTypesReadSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class AbonTaskTypesViewSet(viewsets.ReadOnlyModelViewSet):
+    """Типы заявок"""
+    queryset = models.Task_types.objects.filter(category='abon')
+    serializer_class = serializers.TaskTypesReadSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

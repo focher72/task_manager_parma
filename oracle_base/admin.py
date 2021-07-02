@@ -4,7 +4,7 @@ from .models import Client_lists, Client_shpd_info
 
 class Client_lists_Admin(admin.ModelAdmin):
     # Последовательость имен полей которые надо выводить
-    list_display = ('account', 'clnt_type', 'clnt_name', 'abonent_adr',)
+    list_display = ('account', 'clnt_type', 'clnt_name',)
     # Имена полей которые нужны как гиперссылки
     list_display_links = ('account',)
     # Поля по которым нужна фильтрация возможно в третей версии его нет

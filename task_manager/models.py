@@ -2,14 +2,12 @@ from django.db import models
 from datetime import datetime
 from django_currentuser.db.models import CurrentUserField
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save, pre_save, post_delete
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from oracle_base.models import Client_lists
-from changelog.mixins import ChangeloggableMixin
-from changelog.signals import journal_save_handler, journal_delete_handler
 
 
-class Task(ChangeloggableMixin, models.Model):
+class Task(models.Model):
     """Список всех заявок"""
     TYPE_CATEGORY_ON_MODEL = (
         ('tech', 'Техподдержка'),
@@ -35,8 +33,7 @@ class Task(ChangeloggableMixin, models.Model):
         choices=TYPE_CATEGORY_ON_MODEL,
         max_length=10,
         verbose_name='Категория заявки',
-        default='tech',
-        null=True)
+        default='tech')
     create_date = models.DateTimeField(
         default=datetime.now,
         db_index=True,
@@ -50,7 +47,7 @@ class Task(ChangeloggableMixin, models.Model):
         ordering = ('create_date',)
 
     def __str__(self):
-        return self.task_text[0:20] + ' от: ' f'{self.create_date}'[0:20]
+        return self.task_text[0:20]
 
 
 class Status(models.Model):
@@ -65,7 +62,7 @@ class Status(models.Model):
         return self.status_name
 
 
-class Task_status(ChangeloggableMixin, models.Model):
+class Task_status(models.Model):
     """Список изменений статуса заявок"""
     status = models.ForeignKey(
         'Status',
@@ -88,17 +85,11 @@ class Task_status(ChangeloggableMixin, models.Model):
         db_index=True,
         verbose_name='Окончание действия')
     comment = models.TextField('Комментарий', null=True)
-    create_date = models.DateTimeField(
-        default=datetime.now,
-        db_index=True,
-        editable=False,
-        verbose_name='Дата добавления')
     create_user = CurrentUserField()
 
     class Meta:
         verbose_name_plural = 'Статусы заявок'
         verbose_name = 'Статус заявки'
-        ordering = ('create_date',)
 
     def __str__(self):
         return f'{self.task}' + ' ' + f'{self.status}'
@@ -115,8 +106,7 @@ class Task_types(models.Model):
         choices=TYPE_CATEGORY_ON_MODEL,
         max_length=10,
         default='tech',
-        verbose_name='Категория заявки',
-        null=True)
+        verbose_name='Категория заявки')
 
     class Meta:
         verbose_name_plural = 'Типы заявок'
@@ -138,7 +128,7 @@ class Task_source(models.Model):
         return self.source_name
 
 
-class Task_user_work(ChangeloggableMixin, models.Model):
+class Task_user_work(models.Model):
     """Таблица исполнителей"""
     user = models.ForeignKey(
         User,
@@ -161,23 +151,17 @@ class Task_user_work(ChangeloggableMixin, models.Model):
         default=datetime(2999, 12, 31),
         db_index=True,
         verbose_name='Окончание действия')
-    create_date = models.DateTimeField(
-        default=datetime.now,
-        db_index=True,
-        editable=False,
-        verbose_name='Дата добавления')
     create_user = CurrentUserField()
 
     class Meta:
         verbose_name_plural = 'История исполнителей'
         verbose_name = 'История исполнителя'
-        ordering = ('create_date',)
 
     def __str__(self):
         return f'{self.task}' + ' ' f'{self.user}'
 
 
-class Task_messages(ChangeloggableMixin, models.Model):
+class Task_messages(models.Model):
     """ Комментарии сотрудников к заявке """
     task = models.ForeignKey(
         Task,
@@ -201,12 +185,6 @@ class Task_messages(ChangeloggableMixin, models.Model):
 
     def __str__(self):
         return self.messages_text
-
-
-post_save.connect(journal_save_handler, sender=Task)
-post_delete.connect(journal_delete_handler, sender=Task)
-post_save.connect(journal_save_handler, sender=Task_user_work)
-post_delete.connect(journal_delete_handler, sender=Task_user_work)
 
 
 @receiver(post_save, sender=Task)

@@ -144,8 +144,7 @@ class HardwarePortsVlanViewSet(viewsets.ReadOnlyModelViewSet):
         filters.SearchFilter,
     )
     filterset_class = drf_filters.PortsFilter
-    search_fields = ['hardware__name_hardware', 'hardware']
-    search_fields = ['vlan_number', 'vlan_name']
+    search_fields = ['hardware__name_hardware']
     ordering_fields = ['hardware']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -156,10 +155,11 @@ class HardwarePortsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PortsSerializer
     filter_backends = (
         dj_filters.DjangoFilterBackend,
-        filters.OrderingFilter
+        filters.OrderingFilter,
+        filters.SearchFilter,
     )
     filterset_class = drf_filters.PortsFilter
-    search_fields = ['hardware__name_hardware', 'hardware']
+    search_fields = ['hardware__name_hardware']
     ordering_fields = ['hardware']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 

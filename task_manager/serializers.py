@@ -7,13 +7,11 @@ from oracle_base.serializers import ClientListSerializer
 class TaskUserWorkSerializer(serializers.ModelSerializer):
     """список исполнителей заявки"""
     create_user = serializers.StringRelatedField()
-    # user = serializers.StringRelatedField()
-    # task = serializers.StringRelatedField()
 
     class Meta:
         model = models.Task_user_work
         fields = "__all__"
-        read_only_fields = ('start_date', 'end_date', 'create_user', 'create_date',)
+        read_only_fields = ('start_date', 'end_date', 'create_user',)
 
 
 class TaskMessagesSerializer(serializers.ModelSerializer):
@@ -24,6 +22,15 @@ class TaskMessagesSerializer(serializers.ModelSerializer):
         model = models.Task_messages
         fields = "__all__"
         read_only_fields = ('create_date', 'create_user')
+
+
+class TaskMessagesReadSerializer(serializers.ModelSerializer):
+    """Комментарии от сотрудников к заявке"""
+    create_user = serializers.StringRelatedField()
+
+    class Meta:
+        model = models.Task_messages
+        fields = ('messages_text', 'file', 'create_user', 'create_date')
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -41,6 +48,13 @@ class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Status
         fields = "__all__"
+
+
+class TaskTypesReadSerializer(serializers.ModelSerializer):
+    """Полный список статусов"""
+    class Meta:
+        model = models.Task_types
+        fields = ('task_name',)
 
 
 class TaskTypesSerializer(serializers.ModelSerializer):
@@ -64,7 +78,7 @@ class TaskStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Task_status
         fields = "__all__"
-        read_only_fields = ('start_date', 'end_date', 'create_user', 'create_date',)
+        read_only_fields = ('start_date', 'end_date', 'create_user',)
 
 
 class TaskFullInfoSerializer(serializers.ModelSerializer):
@@ -79,11 +93,12 @@ class TaskFullInfoSerializer(serializers.ModelSerializer):
     current_user = serializers.SerializerMethodField()
     close_date = serializers.SerializerMethodField()
     close_comment = serializers.SerializerMethodField()
-    task_messages = TaskMessagesSerializer(many=True)
+    task_messages = TaskMessagesReadSerializer(many=True)
 
     class Meta:
         model = models.Task
-        fields = "__all__"
+        # fields = "__all__"
+        exclude = ['category']
 
     def get_current_status(self, obj):
         """Последний статус заявки"""

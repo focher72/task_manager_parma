@@ -14,7 +14,7 @@ class TaskAdmin(admin.ModelAdmin):
 class TaskStatusAdmin(admin.ModelAdmin):
     list_display = ('task', 'status', 'start_date', 'end_date', 'comment',)
     list_display_links = ('task',)
-    readonly_fields = ('create_user', 'create_date')
+    readonly_fields = ('create_user', 'start_date', 'end_date',)
     search_fields = ('task',)
     list_filter = ('status', 'task',)
 
@@ -22,7 +22,7 @@ class TaskStatusAdmin(admin.ModelAdmin):
 class TaskUserWorkAdmin(admin.ModelAdmin):
     list_display = ('task', 'user', 'start_date', 'end_date', 'comment',)
     list_display_links = ('task',)
-    readonly_fields = ('create_user', 'create_date')
+    readonly_fields = ('create_user', 'start_date', 'end_date',)
     search_fields = ('task',)
     list_filter = ('user', 'task',)
 
