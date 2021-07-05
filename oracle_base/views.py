@@ -66,7 +66,7 @@ def create_client(request):
         return JsonResponse(context, content_type='text/plain; charset=utf-8')
 
 
-class ClientListSet(viewsets.ReadOnlyModelViewSet):
+class ClientListSet(viewsets.ModelViewSet):
     """Полная информация о всех заявках"""
     queryset = models.Client_lists.objects.all()
     serializer_class = serializers.ClientListSerializer
@@ -81,7 +81,7 @@ class ClientListSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class ClientShpdInfoSet(viewsets.ReadOnlyModelViewSet):
+class ClientShpdInfoSet(viewsets.ModelViewSet):
     """Полная информация о всех заявках"""
     queryset = models.Client_shpd_info.objects.all()
     serializer_class = serializers.ClientShpdInfoSerializer
